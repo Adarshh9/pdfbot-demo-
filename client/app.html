@@ -1,47 +1,40 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Text Input and Backend Communication</title>
-</head>
+    <head>
+        <title>Text Input and Backend Communication</title>
+    </head>
 
-<body>
-    <h1>Send Text to the Backend</h1>
-    <form id="textForm">
-        <label for="textInput">Enter query:</label>
-        <input type="text" id="textInput" name="textInput" required>
-        <br>
-        <button type="button" onclick="onClickedGetResponse()">GO</button>
-    </form>
+    <body>
+        <h1>Send Text to the Backend</h1>
+        <form id="textForm">
+            <label for="textInput">Enter query:</label>
+            <input type="text" id="textInput" name="textInput" required>
+            <br>
+            <button onclick="onClickedGetResponse()" type="submit">GO</button>
+        </form>
 
-    <div id="response">
-        <p>Response: <span id="responseData"></span></p>
-    </div>
+        <div id="response">
+            <p>Response: <span id="responseData"></span></p>
+        </div>
 
-    <script>
+        <script>
 
-        function onClickedGetResponse() {
-            console.log("Get response button clicked");
-            var query = textInput.value; 
-
-            var url = "http://127.0.0.1:5001/get_response";
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ query: query })
-            })
-                .then(response => response.json())
-                .then(data => {
+            function onClickedGetResponse() {
+                console.log("Get response button clicked");
+                var query = document.getElementById("textInput");
+              
+                var url = "http://127.0.0.1:5001/get_response"; 
+                $.post(url, {
+                    query: query
+                },function(data, status) {
                     console.log(data.response);
-                    responseData.innerHTML = data.response.toString();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                    getResponse.innerHTML = data.response.toString();
+                    console.log(status);
                 });
-        }
-    </script>
-</body>
+            }
+
+        </script>
+    </body>
 
 </html>

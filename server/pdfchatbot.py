@@ -13,7 +13,7 @@ def pdfqna(query):
     loaders = [UnstructuredPDFLoader(files_path)]
 
     index = VectorstoreIndexCreator(
-        embedding=GooglePalmEmbeddings(google_api_key=PALM_API_KEY),
+        embedding = GooglePalmEmbeddings(google_api_key=PALM_API_KEY),
         text_splitter=RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=0),
     ).from_loaders(loaders)
 
@@ -29,3 +29,8 @@ def pdfqna(query):
     
     response = chain(query)
     return response["result"]
+
+ans = pdfqna("Who Can Participate?")
+
+print(ans)
+
